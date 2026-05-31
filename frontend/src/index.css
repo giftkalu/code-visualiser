@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* Add this to the end of index.css */
+
+/* Highlights the background of the executing line */
+.executing-line-highlight {
+  background-color: rgba(34, 197, 94, 0.15) !important; /* Soft green */
+  border-left: 4px solid #22c55e !important; /* Bright green vertical bar */
+  width: 100% !important;
+}
+
+/* Adds a small green indicator in the gutter/margin */
+.executing-line-glyph {
+  background-color: #22c55e;
+  width: 6px !important;
+  margin-left: 4px;
+  border-radius: 2px;
+}

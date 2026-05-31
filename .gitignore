@@ -1,0 +1,16 @@
+# Environment
+.env
+backend/.env
+
+# Python
+backend/__pycache__/
+*.pyc
+venv/
+pdftest/
+# Node
+node_modules/
+package-lock.json
+package.json
+node.txt
+# Editor
+.vscode/
