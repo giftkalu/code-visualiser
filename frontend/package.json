@@ -1,19 +1,29 @@
 {
-  "name": "codeviz",
-  "version": "1.0.0",
-  "description": "",
-  "main": "chapters345.js",
-  "directories": {
-    "test": "tests"
-  },
+  "name": "codeviz-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "docx": "^9.6.1"
+    "@monaco-editor/react": "^4.6.0",
+    "axios": "^1.6.0",
+    "d3": "^7.8.5",
+    "framer-motion": "^10.16.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "vite": "^5.0.0"
   }
 }
