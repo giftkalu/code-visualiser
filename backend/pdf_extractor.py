@@ -9,7 +9,6 @@ Multi-strategy pipeline:
 
 import re
 from typing import Dict, List, Optional, Tuple
-from matplotlib import lines
 import pdfplumber
 from io import BytesIO
 
