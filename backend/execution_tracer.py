@@ -45,6 +45,13 @@ def _make_restricted_globals():
     glb["_write_"] = full_write_guard
     glb["_unpack_sequence_"] = guarded_unpack_sequence
     glb["_iter_unpack_sequence_"] = guarded_iter_unpack_sequence
+
+    # ✅ FIX 1: RestrictedPython rewrites print() → _print_(), so we must supply it
+    glb["_print_"] = PrintCollector
+
+    # ✅ FIX 2: RestrictedPython rewrites for-loops to use _getiter_(), must supply it
+    glb["_getiter_"] = iter
+
     return glb
 
 
@@ -159,14 +166,21 @@ def trace_execution(code: str, timeout: int = 5) -> dict:
         sys.settrace(trace_calls)
         exec(compiled, restricted_globals)
         sys.settrace(None)
-
         if sys.platform != 'win32':
             signal.alarm(0)
 
-        printed_text = restricted_globals.get('printed', '')
-        if printed_text:
+        # ✅ FIX 3: PrintCollector stores output in restricted_globals['printed'],
+        # but only after exec finishes. Get it via the _print_ instance's _getvalue().
+        print_collector = restricted_globals.get('_print_')
+        if print_collector and hasattr(print_collector, '_getvalue'):
+            collected = print_collector._getvalue()
+        else:
+            # Fallback: RestrictedPython also writes a 'printed' str var
+            collected = restricted_globals.get('printed', '') or ''
+
+        if collected:
             output_lines.extend(
-                line for line in printed_text.splitlines()
+                line for line in collected.splitlines()
                 if line.strip()
             )
 
