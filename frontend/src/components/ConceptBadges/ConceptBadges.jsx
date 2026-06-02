@@ -31,7 +31,8 @@ export default function ConceptBadges({ code }) {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/analyze-concepts', {
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${API_BASE}/api/analyze-concepts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code }),
