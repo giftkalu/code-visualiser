@@ -26,6 +26,26 @@ model = genai.GenerativeModel('gemini-2.5-flash')
 
 MAX_STEPS = 500
 
+def _inplacevar_(op: str, x, y):
+    """Handle augmented assignments (+=, -=, *=, etc.) in RestrictedPython."""
+    ops = {
+        '+=':  lambda a, b: a + b,
+        '-=':  lambda a, b: a - b,
+        '*=':  lambda a, b: a * b,
+        '/=':  lambda a, b: a / b,
+        '//=': lambda a, b: a // b,
+        '%=':  lambda a, b: a % b,
+        '**=': lambda a, b: a ** b,
+        '&=':  lambda a, b: a & b,
+        '|=':  lambda a, b: a | b,
+        '^=':  lambda a, b: a ^ b,
+        '>>=': lambda a, b: a >> b,
+        '<<=': lambda a, b: a << b,
+    }
+    if op not in ops:
+        raise TypeError(f"Unsupported in-place operator: {op}")
+    return ops[op](x, y)
+
 def _make_restricted_globals():
     restricted_builtins = dict(safe_builtins)
     for name in ('range', 'len', 'enumerate', 'zip',
@@ -45,6 +65,7 @@ def _make_restricted_globals():
     glb["_write_"] = full_write_guard
     glb["_unpack_sequence_"] = guarded_unpack_sequence
     glb["_iter_unpack_sequence_"] = guarded_iter_unpack_sequence
+    glb["_inplacevar_"] = _inplacevar_
 
     # ✅ FIX 1: RestrictedPython rewrites print() → _print_(), so we must supply it
     glb["_print_"] = PrintCollector
